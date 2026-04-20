@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini Phone UI</title>
+
+<style>
+body {
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial;
+}
+
+/* Phone Frame */
+.phone {
+  width: 300px;
+  height: 550px;
+  border: 8px solid black;
+  border-radius: 30px;
+  overflow: hidden;
+  position: relative;
+  background: #000;
+}
+
+/* Lock Screen */
+.lock-screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: url('https://picsum.photos/300/550') center/cover;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.time {
+  font-size: 40px;
+}
+
+.unlock-btn {
+  margin-top: 20px;
+  padding: 8px 15px;
+  background: white;
+  color: black;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Home Screen */
+.home {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #2193b0, #6dd5ed);
+  padding: 15px;
+  box-sizing: border-box;
+}
+
+.apps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.app {
+  background: rgba(255,255,255,0.2);
+  padding: 15px;
+  text-align: center;
+  border-radius: 15px;
+  cursor: pointer;
+  color: white;
+}
+
+/* App Screen */
+.app-screen {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: white;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.back-btn {
+  margin-top: 20px;
+  padding: 5px 10px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+
+  <!-- Lock Screen -->
+  <div class="lock-screen" id="lockScreen">
+    <div class="time" id="time"></div>
+    <button class="unlock-btn" onclick="unlock()">Unlock</button>
+  </div>
+
+  <!-- Home Screen -->
+  <div class="home" id="home">
+    <h3>My Phone</h3>
+    <div class="apps">
+      <div class="app" onclick="openApp('calculator')">Calc</div>
+      <div class="app" onclick="openApp('about')">About</div>
+      <div class="app" onclick="openApp('notes')">Notes</div>
+    </div>
+  </div>
+
+  <!-- App Screen -->
+  <div class="app-screen" id="appScreen">
+    <h2 id="appTitle"></h2>
+    <p id="appContent"></p>
+    <button class="back-btn" onclick="goBack()">Back</button>
+  </div>
+
+</div>
+
+<script>
+
+// Time update
+function updateTime() {
+  let now = new Date();
+  let hours = now.getHours().toString().padStart(2,'0');
+  let mins = now.getMinutes().toString().padStart(2,'0');
+  document.getElementById("time").innerText = hours + ":" + mins;
+}
+setInterval(updateTime, 1000);
+updateTime();
+
+// Unlock
+function unlock() {
+  document.getElementById("lockScreen").style.display = "none";
+  document.getElementById("home").style.display = "block";
+}
+
+// Open App
+function openApp(app) {
+  let title = "";
+  let content = "";
+
+  if(app === "calculator") {
+    title = "Calculator";
+    content = "Simple calculator coming soon!";
+  }
+  else if(app === "about") {
+    title = "About Phone";
+    content = "This is a custom phone UI made using HTML, CSS, JS.";
+  }
+  else if(app === "notes") {
+    title = "Notes";
+    content = "You can add notes feature here.";
+  }
+
+  document.getElementById("appTitle").innerText = title;
+  document.getElementById("appContent").innerText = content;
+
+  document.getElementById("home").style.display = "none";
+  document.getElementById("appScreen").style.display = "block";
+}
+
+// Back
+function goBack() {
+  document.getElementById("appScreen").style.display = "none";
+  document.getElementById("home").style.display = "block";
+}
+
+</script>
+
+</body>
+</html>
